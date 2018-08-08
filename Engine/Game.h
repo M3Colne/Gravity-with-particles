@@ -4,6 +4,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Vec2.h"
+#include "Particle.h"
 
 class Game
 {
