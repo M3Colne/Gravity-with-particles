@@ -6,8 +6,8 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f));
-	particle.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2 - 100)), Vec2(0.0f, 0.0f));
+	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 1.0f);
+	particle.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2 - 100)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 1.0f);
 }
 
 void Game::Go()
@@ -20,6 +20,8 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	particle.Update();
+	particle.Attracted(attractor);
 }
 
 void Game::ComposeFrame()
