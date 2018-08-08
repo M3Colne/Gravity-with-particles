@@ -77,6 +77,16 @@ void Particle::ClampToScreenAndBounce()
 	}
 }
 
+Vec2 Particle::GetVel()
+{
+	return vel;
+}
+
+void Particle::SetVel(Vec2 in_vel)
+{
+	vel = in_vel;
+}
+
 float Particle::GetRadius()
 {
 	return Radius;

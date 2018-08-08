@@ -34,5 +34,7 @@ private:
 
 	Particle attractor;
 	Particle particle[nParticles];
+
+	static constexpr float Friction = 0.7f;
 	/********************************/
 };
