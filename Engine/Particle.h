@@ -10,6 +10,7 @@ public:
 	void Draw(Graphics& gfx);
 	void Update();
 	void Attracted(Particle target);
+	void ClampToScreenAndBounce();
 private:
 	Vec2 pos;
 	Vec2 vel;

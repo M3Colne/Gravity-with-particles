@@ -30,6 +30,8 @@ void Particle::Update()
 {
 	vel += acc;
 	pos += vel;
+
+	ClampToScreenAndBounce();
 }
 
 void Particle::Attracted(Particle target)
@@ -47,4 +49,29 @@ void Particle::Attracted(Particle target)
 	acc = force * NUMBER;
 	// I created this variable because there is no operator for / in the vector so I made force * 1 / mass
 	//which is the same with force / mass;
+}
+
+void Particle::ClampToScreenAndBounce()
+{
+	if (pos.x + Radius >= Graphics::ScreenWidth)
+	{
+		pos.x = Graphics::ScreenWidth - Radius - 1;
+		vel.x = -vel.x;
+	}
+	if (pos.x - Radius <= 0)
+	{
+		pos.x = Radius;
+		vel.x = -vel.x;
+	}
+
+	if (pos.y + Radius >= Graphics::ScreenHeight)
+	{
+		pos.y = Graphics::ScreenHeight - Radius - 1;
+		vel.y = -vel.y;
+	}
+	if (pos.y - Radius <= 0)
+	{
+		pos.y = Radius;
+		vel.y = -vel.y;
+	}
 }
