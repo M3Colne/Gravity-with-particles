@@ -40,7 +40,7 @@ void Particle::Attracted(Particle target)
 
 	const float strenght = G * target.mass * mass / force.GetLengthSq();
 
-	force.NormalizeTo(strenght);
+	force.NormalizeTo(strenght * 100);
 
 	const float NUMBER = 1 / mass;
 
