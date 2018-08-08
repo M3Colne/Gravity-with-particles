@@ -21,6 +21,7 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	particle.Update();
+	attractor.Update(); //This function basically does nothing because the attractor particle doesn't move
 	particle.Attracted(attractor);
 }
 
