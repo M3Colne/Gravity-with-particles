@@ -76,8 +76,3 @@ void Particle::ClampToScreenAndBounce()
 		vel.y = -vel.y;
 	}
 }
-
-float Particle::GetRadius()
-{
-	return Radius;
-}
