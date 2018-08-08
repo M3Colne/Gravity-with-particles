@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Vec2.h"
 #include "Particle.h"
+#include <random>
 
 class Game
 {
@@ -24,7 +25,14 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xDist;
+	std::uniform_int_distribution<int> yDist;
+	std::uniform_int_distribution<int> vDist;
+
+	static constexpr int nParticles = 3;
+
 	Particle attractor;
-	Particle particle;
+	Particle particle[nParticles];
 	/********************************/
 };

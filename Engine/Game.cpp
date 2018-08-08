@@ -4,10 +4,18 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	rng(std::random_device{}()),
+	xDist(int(Particle::GetRadius()), int(Graphics::ScreenWidth - Particle::GetRadius())),
+	yDist(int(Particle::GetRadius()), int(Graphics::ScreenWidth - Particle::GetRadius())),
+	vDist(-4.0f, 4.0f)
 {
-	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(1.0f, 2.5f), Vec2(0.0f, 0.0f), 10.0f);
-	particle.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2 - 100)), Vec2(-1.0f, 1.5f), Vec2(0.0f, 0.0f), 10000.0f);
+	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 100.0f);
+
+	for (int i = 0; i < nParticles; i++)
+	{
+		particle[i].Init(Vec2(float(xDist(rng)), float(yDist(rng))), Vec2(float(vDist(rng)), float(vDist(rng))), Vec2(0.0f, 0.0f), 1.0f);
+	}
 }
 
 void Game::Go()
@@ -20,13 +28,23 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	particle.Update();
+	for (int i = 0; i < nParticles; i++)
+	{
+		particle[i].Update();
+	}
 	attractor.Update(); //This function basically does nothing because the attractor particle doesn't move
-	particle.Attracted(attractor);
+	
+	for (int i = 0; i < nParticles; i++)
+	{
+		particle[i].Attracted(attractor);
+	}
 }
 
 void Game::ComposeFrame()
 {
 	attractor.Draw(gfx);
-	particle.Draw(gfx);
+	for (int i = 0; i < nParticles; i++)
+	{
+		particle[i].Draw(gfx);
+	}
 }
