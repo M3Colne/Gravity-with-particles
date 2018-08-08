@@ -25,5 +25,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Particle attractor;
+	Particle particle;
 	/********************************/
 };
