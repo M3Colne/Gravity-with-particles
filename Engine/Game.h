@@ -24,5 +24,6 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	Particle attractor;
 	/********************************/
 };

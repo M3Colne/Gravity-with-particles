@@ -11,5 +11,5 @@ public:
 private:
 	Vec2 pos;
 	Vec2 vel;
-	static constexpr int Radius = 20;
+	static constexpr float Radius = 5.0f;
 };

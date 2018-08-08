@@ -9,16 +9,16 @@ void Particle::Init(Vec2 in_pos, Vec2 in_vel)
 
 void Particle::Draw(Graphics & gfx)
 {
-	const int topLeftX = int(pos.x) - Radius;
-	const int topLeftY = int(pos.y) - Radius;
-	const int diameter = (Radius * 2) + 1;
+	const float topLeftX = pos.x - Radius;
+	const float topLeftY = pos.y - Radius;
+	const float diameter = (Radius * 2) + 1;
 
-	for (int y = topLeftY; y < topLeftY + diameter; ++y) {
-		for (int x = topLeftX; x < topLeftX + diameter; ++x) {
-			const int DistanceSquared = (int)pow(pos.x - x, 2) + (int)pow(pos.y - y, 2);
+	for (float y = topLeftY; y < topLeftY + diameter; ++y) {
+		for (float x = topLeftX; x < topLeftX + diameter; ++x) {
+			const float DistanceSquared = (pow(pos.x - x, 2) + pow(pos.y - y, 2));
 
-			if (DistanceSquared <= pow(Radius, 2)) {
-				gfx.PutPixel(x, y, 255,255,255);
+			if (DistanceSquared + 0.5f <= pow(Radius, 2)) {
+				gfx.PutPixel(int(x), int(y), 255,255,255);
 			}
 		}
 	}
