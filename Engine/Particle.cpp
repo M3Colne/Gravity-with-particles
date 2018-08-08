@@ -1,10 +1,12 @@
 #include "Particle.h"
 #include <cmath>
 
-void Particle::Init(Vec2 in_pos, Vec2 in_vel)
+void Particle::Init(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass)
 {
 	pos = in_pos;
 	vel = in_vel;
+	acc = in_acc;
+	mass = in_mass;
 }
 
 void Particle::Draw(Graphics & gfx)
@@ -22,4 +24,27 @@ void Particle::Draw(Graphics & gfx)
 			}
 		}
 	}
+}
+
+void Particle::Update()
+{
+	vel += acc;
+	pos += vel;
+}
+
+void Particle::Attracted(Particle target)
+{
+	Vec2 force = target.pos - pos;
+
+	const float G = 6.67408f;
+
+	const float strenght = G * ( (target.mass * mass) / force.GetLengthSq());
+
+	force.NormalizeTo(strenght);
+
+	const float NUMBER = 1 / mass;
+
+	acc = force * NUMBER;
+	// I created this variable because there is no operator for / in the vector so I made force * 1 / mass
+	//which is the same with force / mass;
 }
