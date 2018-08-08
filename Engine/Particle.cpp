@@ -38,7 +38,7 @@ void Particle::Attracted(Particle target)
 
 	const float G = 6.67408f;
 
-	const float strenght = G * ( (target.mass * mass) / force.GetLengthSq());
+	const float strenght = G * target.mass * mass / force.GetLengthSq();
 
 	force.NormalizeTo(strenght);
 
