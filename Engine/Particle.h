@@ -11,8 +11,6 @@ public:
 	void Update();
 	void Attracted(Particle target);
 	void ClampToScreenAndBounce();
-	Vec2 GetVel();
-	void SetVel(Vec2 in_vel);
 	static float GetRadius();
 private:
 	Vec2 pos;

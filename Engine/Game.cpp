@@ -31,11 +31,6 @@ void Game::UpdateModel()
 	for (int i = 0; i < nParticles; i++)
 	{
 		particle[i].Update();
-
-		if (particle[i].GetVel().GetLength() > Friction - 0.1f)
-		{
-			particle[i].SetVel(particle[i].GetVel().NormalizeTo(particle[i].GetVel().GetLength() - Friction));
-		}
 	}
 	attractor.Update(); //This function basically does nothing because the attractor particle doesn't move
 	
