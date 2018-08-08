@@ -30,6 +30,7 @@ void Particle::Update()
 {
 	vel += acc;
 	pos += vel;
+	acc *= 0;
 
 	ClampToScreenAndBounce();
 }
@@ -46,7 +47,7 @@ void Particle::Attracted(Particle target)
 
 	const float NUMBER = 1 / mass;
 
-	acc = force * NUMBER;
+	acc += force * NUMBER;
 	// I created this variable because there is no operator for / in the vector so I made force * 1 / mass
 	//which is the same with force / mass;
 }
