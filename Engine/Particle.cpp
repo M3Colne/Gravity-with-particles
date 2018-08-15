@@ -1,7 +1,7 @@
 #include "Particle.h"
 #include <cmath>
 
-void Particle::Init(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass)
+Particle::Particle(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass)
 {
 	pos = in_pos;
 	vel = in_vel;
