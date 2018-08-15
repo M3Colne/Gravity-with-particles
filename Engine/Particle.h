@@ -12,7 +12,7 @@ private:
 	float radius = 5.0f;
 	float mass;
 public:
-	Particle(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass);
+	void Init(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass);
 	void Draw(Graphics& gfx);
 	void Update();
 	void Attracted(Particle target);

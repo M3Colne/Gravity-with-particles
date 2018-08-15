@@ -30,7 +30,9 @@ private:
 	std::uniform_int_distribution<int> yDist;
 	std::uniform_int_distribution<int> vDist;
 
+	static constexpr int nParticles = 100;
+
 	Particle attractor;
-	std::vector<Particle> particle;
+	Particle particle[nParticles];
 	/********************************/
 };
