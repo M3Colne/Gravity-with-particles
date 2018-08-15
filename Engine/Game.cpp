@@ -11,7 +11,7 @@ Game::Game(MainWindow& wnd)
 	vDist(-4, 4),
 	attractor(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 100.0f)
 {
-	for (int i = 0; i < 20; i++) //Number of particles
+	for (int i = 0; i < 100; i++) //Number of particles
 	{
 		particles.push_back(Particle(Vec2(float(xDist(rng)), float(yDist(rng))), Vec2(float(vDist(rng)), float(vDist(rng))), Vec2(0.0f, 0.0f), 10.0f));
 	}
@@ -30,17 +30,19 @@ void Game::UpdateModel()
 	//Collision
 	for (unsigned int i = 0; i < particles.size(); i++)
 	{
+		attractor.CollisionWithAnotherParticle(particles.at(i));
+
 		for (unsigned int j = 0; j < particles.size(); j++)
 		{
-			if (particles.at(i).collision != true && i != j)
+			if (i != j)
 			{
 				particles.at(i).CollisionWithAnotherParticle(particles.at(j));
-			}
-		}
 
-		if (particles.at(i).collision != true)
-		{
-			attractor.CollisionWithAnotherParticle(particles.at(i));
+				if (particles.at(j).collision)
+				{
+					particles.erase(particles.begin() + j);
+				}
+			}
 		}
 	}
 	//Collision
