@@ -11,8 +11,11 @@ private:
 	Vec2 acc;
 	float radius = 5.0f;
 	float mass;
+	static int nextId;
+	int id;
 public:
 	Particle(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass);
+	bool operator !=(const Particle& rhs);
 	void Draw(Graphics& gfx);
 	void Update();
 	void Attracted(Particle target);
