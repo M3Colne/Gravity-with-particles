@@ -6,11 +6,11 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	rng(std::random_device{}()),
-	xDist(5, 794),
-	yDist(5, 594),
+	xDist(5, Graphics::ScreenWidth - 5), // 5 is the particles radius, if you want to change it then change it by hand here too
+	yDist(5, Graphics::ScreenHeight - 5),
 	vDist(-4, 4)
 {
-	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 70.0f);
+	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 100.0f);
 
 	for (int i = 0; i < nParticles; i++)
 	{
@@ -31,22 +31,17 @@ void Game::UpdateModel()
 	//Collision
 	for (int i = 0; i < nParticles; i++)
 	{
+		for (int j = 0; j < nParticles; j++)
+		{
+			if (particle[i].collision != true && i != j)
+			{
+				particle[i].CollisionWithAnotherParticle(particle[j]);
+			}
+		}
+
 		if (particle[i].collision != true)
 		{
-			Vec2 distanceBetweenAttrAndParticle = attractor.pos - particle[i].pos;
-
-			if (distanceBetweenAttrAndParticle.GetLength() <= attractor.Radius + particle[i].Radius)
-			{
-				const float PI = 3.141592;
-				const float bothSurfaces =
-					PI * (attractor.Radius * attractor.Radius) +
-					PI * (particle[i].Radius * particle[i].Radius);
-
-				attractor.Radius = float(sqrt(bothSurfaces / PI));
-				attractor.mass += particle[i].mass;
-
-				particle[i].collision = true;
-			}
+			attractor.CollisionWithAnotherParticle(particle[i]);
 		}
 	}
 	//Collision

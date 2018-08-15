@@ -11,15 +11,15 @@ void Particle::Init(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass)
 
 void Particle::Draw(Graphics & gfx)
 {
-	const float topLeftX = pos.x - Radius;
-	const float topLeftY = pos.y - Radius;
-	const float diameter = (Radius * 2) + 1;
+	const float topLeftX = pos.x - radius;
+	const float topLeftY = pos.y - radius;
+	const float diameter = (radius * 2) + 1;
 
 	for (float y = topLeftY; y < topLeftY + diameter; ++y) {
 		for (float x = topLeftX; x < topLeftX + diameter; ++x) {
 			const float DistanceSquared = (pow(pos.x - x, 2) + pow(pos.y - y, 2));
 
-			if (DistanceSquared + 0.5f <= pow(Radius, 2)) {
+			if (DistanceSquared + 0.5f <= pow(radius, 2)) {
 				gfx.PutPixel(int(x), int(y), 255,255,255);
 			}
 		}
@@ -54,25 +54,43 @@ void Particle::Attracted(Particle target)
 
 void Particle::ClampToScreenAndBounce()
 {
-	if (pos.x + Radius >= Graphics::ScreenWidth)
+	if (pos.x + radius >= Graphics::ScreenWidth)
 	{
-		pos.x = Graphics::ScreenWidth - Radius - 1;
+		pos.x = Graphics::ScreenWidth - radius - 1;
 		vel.x = -vel.x;
 	}
-	if (pos.x - Radius <= 0)
+	if (pos.x - radius <= 0)
 	{
-		pos.x = Radius;
+		pos.x = radius;
 		vel.x = -vel.x;
 	}
 
-	if (pos.y + Radius >= Graphics::ScreenHeight)
+	if (pos.y + radius >= Graphics::ScreenHeight)
 	{
-		pos.y = Graphics::ScreenHeight - Radius - 1;
+		pos.y = Graphics::ScreenHeight - radius - 1;
 		vel.y = -vel.y;
 	}
-	if (pos.y - Radius <= 0)
+	if (pos.y - radius <= 0)
 	{
-		pos.y = Radius;
+		pos.y = radius;
 		vel.y = -vel.y;
+	}
+}
+
+void Particle::CollisionWithAnotherParticle(Particle & p)
+{
+	Vec2 distanceBetweenParticleAndP = pos - p.pos;
+
+	if (distanceBetweenParticleAndP.GetLength() <= radius + p.radius && p.collision != true)
+	{
+		const float PI = 3.141592;
+		const float bothSurfaces =
+			PI * pow(radius, 2) +
+			PI * pow(p.radius, 2);
+
+		radius = float(sqrt(bothSurfaces / PI));
+		mass += p.mass;
+
+		p.collision = true;
 	}
 }
