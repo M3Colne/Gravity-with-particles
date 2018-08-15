@@ -8,12 +8,13 @@ Game::Game( MainWindow& wnd )
 	rng(std::random_device{}()),
 	xDist(5, Graphics::ScreenWidth - 5), // 5 is the particles radius, if you want to change it then change it by hand here too
 	yDist(5, Graphics::ScreenHeight - 5),
-	vDist(-4, 4),
-	attractor(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 100.0f)
+	vDist(-4, 4)
 {
-	for (int i = 0; i < 20; i++)
+	attractor.Init(Vec2(float(Graphics::ScreenWidth / 2), float(Graphics::ScreenHeight / 2)), Vec2(0.0f, 0.0f), Vec2(0.0f, 0.0f), 100.0f);
+
+	for (int i = 0; i < nParticles; i++)
 	{
-		particle.push_back(Particle(Vec2(float(xDist(rng)), float(yDist(rng))), Vec2(float(vDist(rng)), float(vDist(rng))), Vec2(0.0f, 0.0f), 10.0f));
+		particle[i].Init(Vec2(float(xDist(rng)), float(yDist(rng))), Vec2(float(vDist(rng)), float(vDist(rng))), Vec2(0.0f, 0.0f), 10.0f);
 	}
 }
 
@@ -28,47 +29,53 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	//Collision
-	for (Particle& i : particle)
+	for (int i = 0; i < nParticles; i++)
 	{
-		for (Particle& j : particle)
+		for (int j = 0; j < nParticles; j++)
 		{
-			if (i != j)
+			if (particle[i].collision != true && i != j)
 			{
-				i.CollisionWithAnotherParticle(j);
+				particle[i].CollisionWithAnotherParticle(particle[j]);
 			}
 		}
 
-		attractor.CollisionWithAnotherParticle(i);
+		if (particle[i].collision != true)
+		{
+			attractor.CollisionWithAnotherParticle(particle[i]);
+		}
 	}
 	//Collision
 
-	//Collision Killing
-	particle.erase(std::remove_if(particle.begin(), particle.end(), [](Particle& p) {
-		return p.collision;
-	}), particle.end());
-	//Collision Killing
-
 	//Update
-	for (Particle& i : particle)
+	for (int i = 0; i < nParticles; i++)
 	{
-		i.Update();
+		if (particle[i].collision != true)
+		{
+			particle[i].Update();
+		}
 	}
 	attractor.Update(); //This function basically does nothing because the attractor particle doesn't move
 	//Update
 
 	//Gravity
-	for (Particle& i : particle)
+	for (int i = 0; i < nParticles; i++)
 	{
-		i.Attracted(attractor);
+		if (particle[i].collision != true)
+		{
+			particle[i].Attracted(attractor);
+		}
 	}
 	//Gravity
 }
 
 void Game::ComposeFrame()
 {
-	for (Particle& i : particle)
-	{
-		i.Draw(gfx);
-	}
 	attractor.Draw(gfx);
+	for (int i = 0; i < nParticles; i++)
+	{
+		if (particle[i].collision != true)
+		{
+			particle[i].Draw(gfx);
+		}
+	}
 }

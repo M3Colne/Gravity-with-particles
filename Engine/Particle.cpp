@@ -1,21 +1,12 @@
 #include "Particle.h"
 #include <cmath>
 
-int Particle::nextId = 0;
-
 Particle::Particle(Vec2 in_pos, Vec2 in_vel, Vec2 in_acc, float in_mass)
 {
 	pos = in_pos;
 	vel = in_vel;
 	acc = in_acc;
 	mass = in_mass;
-
-	id = nextId++;
-}
-
-bool Particle::operator!=(const Particle& rhs)
-{
-	return id != rhs.id;
 }
 
 void Particle::Draw(Graphics & gfx)
@@ -90,7 +81,7 @@ void Particle::CollisionWithAnotherParticle(Particle & p)
 {
 	Vec2 distanceBetweenParticleAndP = pos - p.pos;
 
-	if (distanceBetweenParticleAndP.GetLength() <= radius + p.radius)
+	if (distanceBetweenParticleAndP.GetLength() <= radius + p.radius && p.collision != true)
 	{
 		const float PI = 3.141592;
 		const float bothSurfaces =
